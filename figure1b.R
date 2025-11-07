@@ -8,11 +8,12 @@ curl_download("https://www.insee.fr/fr/statistiques/fichier/5371275/RPM2021_D2.x
 
 load("RPM2021_D2_manuel_PO.RData")
 
-names(RPM2021_D2_manuel_PO)[-1]
+names <- names(RPM2021_D2_manuel)
 
-RPM2021_D2_manuel_PO |>
+RPM2021_D2_manuel |>
   gather(variable, value, -`Dixième`) |>
-  mutate(variable = factor(variable, levels = names(RPM2021_D2_manuel_PO)[-1])) |>
+  mutate(variable = factor(variable, levels = c("Prélèvements obligatoires payés sur les revenus et transferts",
+                                                "Prélèvements obligatoires nets payés sur les revenus et transferts"))) |>
   ggplot() + geom_line(aes(x = `Dixième`, y = value, color = variable, group = variable), size = 1) +
   theme_minimal() + xlab("") + ylab("En % du revenu avant transferts") +
   scale_color_manual(name = "Variable",
@@ -30,5 +31,5 @@ RPM2021_D2_manuel_PO |>
   geom_hline(yintercept = 0, linetype = "dashed", size = 1)
 
 
-ggsave("figure1b.png", width = 1.25*6, height = 1.25*3.375, bg = "white")
-ggsave("figure1b.pdf", width = 1.25*6, height = 1.25*3.375)
+ggsave("figure1.png", width = 1.25*6, height = 1.25*3.375, bg = "white")
+ggsave("figure1.pdf", width = 1.25*6, height = 1.25*3.375)
